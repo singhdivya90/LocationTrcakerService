@@ -18,11 +18,15 @@ namespace LocationTrackService.Controllers
 
 
         private readonly ILogger<LocationTrackerController> _logger;
+        private readonly IConfiguration _configuration;
 
-        public LocationTrackerController(ILogger<LocationTrackerController> logger)
+        public LocationTrackerController(ILogger<LocationTrackerController> logger,IConfiguration config)
         {
             _logger = logger;
+            _configuration = config;
         }
+
+       
         
         [HttpGet]
         public string GetLocationDetails(string ipAddress)
