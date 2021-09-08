@@ -23,34 +23,25 @@ namespace LocationTrackService.Controllers
         {
             _logger = logger;
         }
-
-        [HttpGet]
-        public string GetName()
-        {
-            return "Hello Divya!";
-        }
         
-
-
-       
-        [HttpPost]
-        public async Task<LocationDetails> GetLocationDetailsAsync(string ipAddress)
+        [HttpGet]
+        public string GetLocationDetails(string ipAddress)
         {
-            LocationDetails locationDetails = new LocationDetails();
-            using (var httpClient = new HttpClient())
-            {
-                string url = "https://api.ipgeolocation.io/ipgeo-bulk";
-                var parameters = new Dictionary<string, string> { { "apiKey", "91a7b88c701a4ef599c1d49d9c5c8c2a" }, { "ips", "[8.8.8.8,1.1.1.1]" } };
-                httpClient.DefaultRequestHeaders.Add("Content-Type", "application/json");
-                httpClient.DefaultRequestHeaders.Add("Access-Control-Allow-Origin", "*");
-                var encodedContent = new FormUrlEncodedContent(parameters);
+            string result = string.Empty;
 
-                var response = await httpClient.PostAsync(url, encodedContent).ConfigureAwait(false);
-                if (response.StatusCode == HttpStatusCode.OK)
-                {
-                }
+            using (var webClient = new WebClient())
+            {
+                string url = "https://api.ipgeolocation.io/ipgeo";
+               
+                webClient.Headers.Add("Content-Type", "application/json");
+                webClient.QueryString.Add("apiKey", "d361545d809a403f89a3232691f22c46");
+                webClient.QueryString.Add("ip", ipAddress);
+                result = webClient.DownloadString(url);
             }
-            return locationDetails;
+            return result;
         }
+       
+
+
     }
 }
