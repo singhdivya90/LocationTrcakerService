@@ -31,10 +31,10 @@ namespace LocationTrackService.Controllers
 
             using (var webClient = new WebClient())
             {
-                string url = "https://api.ipgeolocation.io/ipgeo";
-               
+                string url = _configuration.GetValue<string>("URL");
+                string apiKey = _configuration.GetValue<string>("ApiKey");
                 webClient.Headers.Add("Content-Type", "application/json");
-                webClient.QueryString.Add("apiKey", "d361545d809a403f89a3232691f22c46");
+                webClient.QueryString.Add("apiKey", apiKey);
                 webClient.QueryString.Add("ip", ipAddress);
                 result = webClient.DownloadString(url);
             }
